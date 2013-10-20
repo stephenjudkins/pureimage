@@ -34,7 +34,7 @@ object Input {
 }
 ```
 
-Output, which may require us to deal with arbitrary output formats and pixel types, sees utility from applying type classes [http://en.wikipedia.org/wiki/Type_class]:
+Output, which may require us to deal with arbitrary output formats and pixel types, sees utility from applying type classes [http://en.wikipedia.org/wiki/Type_class ]:
 ```
 trait Output[I, O <: OutputFormat] {
   def apply(i: Image[I], o: O):Array[Byte]
