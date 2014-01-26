@@ -55,3 +55,12 @@ trait Pixel[A] {
 ```
 
 Included pixel types in include RGB, RGBA, and grayscale. All are represented internally as 32-bit integers. Once certain Scala issues are addressed [https://issues.scala-lang.org/browse/SI-5611] specialization should give us fast performance. Currently these representations are boxed at runtime, but performance should be reasonably good for many use cases.
+
+## Getting PureImage
+Add the following to your `build.sbt`:
+```
+resolvers += "stephenjudkins-bintray" at "http://dl.bintray.com/stephenjudkins/maven"
+
+libraryDependencies += "ps.tricerato" %% "pureimage" % "0.1.0"
+```
+
