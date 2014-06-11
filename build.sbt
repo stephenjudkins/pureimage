@@ -12,4 +12,4 @@ seq(bintrayPublishSettings:_*)
 
 licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
 
-version := "0.1.1"
+version := "0.1.1-michael"

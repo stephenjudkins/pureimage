@@ -33,7 +33,7 @@ object Output {
     def apply(i: Image[RGB], o: PNG.type) = {
       val writer = ImageIO.getImageWritersByFormatName("png").asScala.toSeq.head
 
-      val colorModel = getColorModel(ColorSpace.CS_sRGB)
+      val colorModel = getColorModel(ColorSpace.CS_GRAY)
 
       val (width, height) = (i.width, i.height)
 
