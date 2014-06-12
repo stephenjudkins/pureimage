@@ -33,9 +33,9 @@ private[pureimage] case class OutputRaster(
 
         val p = rgba(x1, y1)
 
-        out(idx) = p & 0xff
-        out(idx + 1) = (p >> 8) & 0xff
-        out(idx + 2) = (p >> 16) & 0xff
+        for (band <- 0 to ourSampleModel.getNumBands()-1) {
+          out(idx+band) = (p >> 8*band) & 0xff
+        }
 
         j += 1
       }

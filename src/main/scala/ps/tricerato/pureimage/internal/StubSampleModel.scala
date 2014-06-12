@@ -5,7 +5,7 @@ import java.awt.Transparency
 import java.awt.image.{Raster, ComponentColorModel, DataBuffer, SampleModel}
 
 
-private[pureimage] class StubSampleModel(w: Int, h: Int, colors: Int, val colorModel: ComponentColorModel) extends SampleModel(DataBuffer.TYPE_INT, w, h, 3) {
+private[pureimage] class StubSampleModel(w: Int, h: Int, colors: Int, val colorModel: ComponentColorModel) extends SampleModel(DataBuffer.TYPE_INT, w, h, colorModel.getNumComponents()) {
 
   private def ??? = throw new Exception("Not implemented")
 

@@ -28,36 +28,40 @@ object Output {
     }
   }
 
-
-  implicit object outputPNG extends Output[RGB, PNG.type] {
+  implicit object outputPNG_RGB extends Output[RGB, PNG.type] {
     def apply(i: Image[RGB], o: PNG.type) = {
-      val writer = ImageIO.getImageWritersByFormatName("png").asScala.toSeq.head
-
-      val colorModel = getColorModel(ColorSpace.CS_GRAY)
-
-      val (width, height) = (i.width, i.height)
-
-      val colors = colorModel.getNumComponents
-
-      val sampleModel = new StubSampleModel(width, height, colors, colorModel)
-
-      val f = (x: Int, y: Int) => i(x,y).i
-
-      val raster = new OutputRaster(sampleModel, width, height, 0, 0, f, colors)
-
-      val buffered = new OutputBufferedImage(
-        sampleModel.colorModel,
-        raster
-      )
-
-      (new ByteArrayOutputStream).tap({ o =>
-        // type-safety FTW. :-/
-        writer.setOutput(ImageIO.createImageOutputStream(o))
-        val iioImage = new IIOImage(buffered, null, null)
-        val param = writer.getDefaultWriteParam
-        writer.write(null, iioImage, param)
-      }).toByteArray
-
+      outputPNG(i.width, i.height, ColorSpace.CS_sRGB, (x:Int,y:Int) => i(x,y).i)
     }
+  }
+
+  implicit object outputPNG_Gray extends Output[Gray, PNG.type] {
+    def apply(i: Image[Gray], o: PNG.type) = {
+      outputPNG(i.width, i.height, ColorSpace.CS_GRAY, (x:Int,y:Int) => i(x,y).i)
+    }
+  }
+
+  private def outputPNG(width: Int, height:Int, colorSpace: Int, func: (Int, Int)=>Int): Array[Byte] = {
+    val writer = ImageIO.getImageWritersByFormatName("png").asScala.toSeq.head
+
+    val colorModel = getColorModel(colorSpace)
+
+    val colors = colorModel.getNumComponents
+
+    val sampleModel = new StubSampleModel(width, height, colors, colorModel)
+
+    val raster = new OutputRaster(sampleModel, width, height, 0, 0, func, colors)
+
+    val buffered = new OutputBufferedImage(
+      sampleModel.colorModel,
+      raster
+    )
+
+    (new ByteArrayOutputStream).tap({ o =>
+      // type-safety FTW. :-/
+      writer.setOutput(ImageIO.createImageOutputStream(o))
+      val iioImage = new IIOImage(buffered, null, null)
+      val param = writer.getDefaultWriteParam
+      writer.write(null, iioImage, param)
+    }).toByteArray
   }
 }
