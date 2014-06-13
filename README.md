@@ -61,6 +61,6 @@ Add the following to your `build.sbt`:
 ```
 resolvers += "stephenjudkins-bintray" at "http://dl.bintray.com/stephenjudkins/maven"
 
-libraryDependencies += "ps.tricerato" %% "pureimage" % "0.1.1"
+libraryDependencies += "ps.tricerato" %% "pureimage" % "0.1.2"
 ```
 
